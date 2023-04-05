@@ -1,0 +1,18 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+            title: Center(
+          child: Text("Ila_Shiny_flutter_practice"),
+        )),
+        backgroundColor: Colors.deepOrange[255],
+        body: Center(
+          child: Text("Happy Coding!"),
+         backgroundColor: Colors.deepPurple[175],),
+      ),
+    ),
+  );
+}
