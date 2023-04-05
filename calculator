@@ -1,0 +1,119 @@
+import 'package:flutter/material.dart';
+
+class SimpleCalculator extends StatefulWidget {
+  @override
+  _SimpleCalculatorState createState() => _SimpleCalculatorState();
+}
+
+class _SimpleCalculatorState extends State<SimpleCalculator> {
+  double firstNumber = 0;
+  double secondNumber = 0;
+  String operator = '';
+  double result = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Simple Calculator'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              buildButton('1'),
+              buildButton('2'),
+              buildButton('3'),
+              buildOperatorButton('+'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              buildButton('4'),
+              buildButton('5'),
+              buildButton('6'),
+              buildOperatorButton('-'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              buildButton('7'),
+              buildButton('8'),
+              buildButton('9'),
+              buildOperatorButton('*'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              buildButton('.'),
+              buildButton('0'),
+              buildButton('C', color: Colors.red),
+              buildOperatorButton('/'),
+            ],
+          ),
+          SizedBox(height: 20),
+          Text(
+            'Result: $result',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildButton(String text, {Color color = Colors.blue}) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          if (operator.isEmpty) {
+            firstNumber = double.parse('$firstNumber$text');
+          } else {
+            secondNumber = double.parse('$secondNumber$text');
+          }
+        });
+      },
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 24),
+      ),
+      style: ElevatedButton.styleFrom(primary: color),
+    );
+  }
+
+  Widget buildOperatorButton(String text) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          operator = text;
+        });
+      },
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 24),
+      ),
+      style: ElevatedButton.styleFrom(primary: Colors.orange),
+    );
+  }
+
+  void calculateResult() {
+    switch (operator) {
+      case '+':
+        result = firstNumber + secondNumber;
+        break;
+      case '-':
+        result = firstNumber - secondNumber;
+        break;
+      case '*':
+        result = firstNumber * secondNumber;
+        break;
+      case '/':
+        result = firstNumber / secondNumber;
+        break;
+    }
+  }
+}
