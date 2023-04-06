@@ -11,7 +11,9 @@ void main() {
           backgroundColor: Colors.blueAccent[400],
         ),
         body: const Center(
-          child: Image(image: AssetImage("images/OIP.jpeg")),
+          child: Image(
+              image: NetworkImage(
+                  'https://iphoneswallpapers.com/wp-content/uploads/2020/11/Tiger-Eyes-Glow-iPhone-Wallpaper.jpg')),
         ),
         backgroundColor: Colors.amberAccent[200],
       ),
