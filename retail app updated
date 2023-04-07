@@ -1,0 +1,133 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(RetailApp());
+}
+
+class Product {
+  final String name;
+  final double price;
+
+  Product(this.name, this.price);
+}
+
+class RetailApp extends StatefulWidget {
+  @override
+  _RetailAppState createState() => _RetailAppState();
+}
+
+class _RetailAppState extends State<RetailApp> {
+  int _selectedIndex = 0;
+  final List<Product> _products = [
+    Product('Product 1', 10),
+    Product('Product 2', 15),
+    Product('Product 3', 20),
+    Product('Product 4', 25),
+    Product('Product 5', 30),
+    Product('Product 6', 35),
+    Product('Product 7', 40),
+    Product('Product 8', 45),
+    Product('Product 9', 50),
+    Product('Product 10', 55),
+  ];
+  final List<Product> _cartItems = [];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _addToCart(Product product) {
+    setState(() {
+      _cartItems.add(product);
+    });
+  }
+
+  void _removeFromCart(Product product) {
+    setState(() {
+      _cartItems.remove(product);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Retail App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Retail App'),
+        ),
+        body: _selectedIndex == 0
+            ? HomeScreen(products: _products, onAddToCart: _addToCart)
+            : CartScreen(cartItems: _cartItems, onRemoveFromCart: _removeFromCart),
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart),
+              label: 'Cart',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ),
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  final List<Product> products;
+  final Function(Product) onAddToCart;
+
+  HomeScreen({required this.products, required this.onAddToCart});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: products.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Text(products[index].name),
+          subtitle: Text('\$${products[index].price}'),
+          trailing: IconButton(
+            icon: Icon(Icons.add_shopping_cart),
+            onPressed: () => onAddToCart(products[index]),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class CartScreen extends StatelessWidget {
+  final List<Product> cartItems;
+  final Function(Product) onRemoveFromCart;
+
+  CartScreen({required this.cartItems, required this.onRemoveFromCart});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: cartItems.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Text(cartItems[index].name),
+          subtitle: Text('\$${cartItems[index].price}'),
+          trailing: IconButton(
+            icon: Icon(Icons.remove_shopping_cart),
+            onPressed: () => onRemoveFromCart(cartItems[index]),
+          ),
+        );
+      },
+    );
+  }
+}
